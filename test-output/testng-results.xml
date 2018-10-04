@@ -2,24 +2,24 @@
 <testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="10033" started-at="2018-09-17T09:34:59Z" finished-at="2018-09-17T09:35:09Z">
+  <suite name="Default suite" duration-ms="24631" started-at="2018-10-04T09:42:26Z" finished-at="2018-10-04T09:42:50Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="10033" started-at="2018-09-17T09:34:59Z" finished-at="2018-09-17T09:35:09Z">
-      <class name="selenium_API.Topic_01_SetUpEnvironment">
-        <test-method status="PASS" signature="beforeClass()[pri:0, instance:selenium_API.Topic_01_SetUpEnvironment@2ac1fdc4]" name="beforeClass" is-config="true" duration-ms="6748" started-at="2018-09-17T02:34:59Z" finished-at="2018-09-17T02:35:06Z">
+    <test name="Default test" duration-ms="24631" started-at="2018-10-04T09:42:26Z" finished-at="2018-10-04T09:42:50Z">
+      <class name="selenium_API.Topic_02_Exercise2">
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:selenium_API.Topic_02_Exercise2@2ac1fdc4]" name="beforeClass" is-config="true" duration-ms="9809" started-at="2018-10-04T02:42:26Z" finished-at="2018-10-04T02:42:36Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeClass -->
-        <test-method status="PASS" signature="TC_01_CheckBrowser()[pri:0, instance:selenium_API.Topic_01_SetUpEnvironment@2ac1fdc4]" name="TC_01_CheckBrowser" duration-ms="2593" started-at="2018-09-17T02:35:06Z" finished-at="2018-09-17T02:35:08Z">
+        <test-method status="PASS" signature="TC_05_Create_an_account()[pri:0, instance:selenium_API.Topic_02_Exercise2@2ac1fdc4]" name="TC_05_Create_an_account" duration-ms="14305" started-at="2018-10-04T02:42:36Z" finished-at="2018-10-04T02:42:50Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- TC_01_CheckBrowser -->
-        <test-method status="PASS" signature="afterClass()[pri:0, instance:selenium_API.Topic_01_SetUpEnvironment@2ac1fdc4]" name="afterClass" is-config="true" duration-ms="673" started-at="2018-09-17T02:35:08Z" finished-at="2018-09-17T02:35:09Z">
+        </test-method> <!-- TC_05_Create_an_account -->
+        <test-method status="PASS" signature="afterClass()[pri:0, instance:selenium_API.Topic_02_Exercise2@2ac1fdc4]" name="afterClass" is-config="true" duration-ms="503" started-at="2018-10-04T02:42:50Z" finished-at="2018-10-04T02:42:50Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- afterClass -->
-      </class> <!-- selenium_API.Topic_01_SetUpEnvironment -->
+      </class> <!-- selenium_API.Topic_02_Exercise2 -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>
