@@ -3,13 +3,13 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="selenium_API.Topic_02_Exercise2">
+      <class name="selenium_API.Topic_03_XPath_CSS">
         <methods>
-          <include name="TC_05_Create_an_account"/>
-          <include name="beforeClass"/>
           <include name="afterClass"/>
+          <include name="TC_01_Element_IsDisplayed"/>
+          <include name="beforeClass"/>
         </methods>
-      </class> <!-- selenium_API.Topic_02_Exercise2 -->
+      </class> <!-- selenium_API.Topic_03_XPath_CSS -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
