@@ -30,7 +30,7 @@ public class Topic_02_Exercise2 {
 	@Test(enabled=false)
 	public void TC_01_Verify_URL_and_title() throws InterruptedException {
 
-		driver.findElement(By.xpath("//div[@class='footer-container']//a[@title='My Account']")).click();
+		driver.findElement(By.xpath("//div[@class='footer-container']//a[text()='My Account']")).click();
 		driver.findElement(By.xpath("//a[@title = 'Create an Account']")).click();		
 		driver.navigate().back();
 		Assert.assertEquals(driver.getCurrentUrl(), "http://live.guru99.com/index.php/customer/account/login/");
@@ -71,8 +71,6 @@ public class Topic_02_Exercise2 {
 	public void TC_05_Create_an_account() throws InterruptedException {
 
 		driver.findElement(By.xpath("//div[@class='footer-container']//a[@title='My Account']")).click();
-		//driver.findElement(By.xpath("//div[@class='footer-container']//a[contain(text(),'My Account')]")).click();
-		//driver.findElement(By.xpath("//div[@class='footer-container']//a[contain(@title,'My Account')]")).click();		
 		Assert.assertTrue(driver.getTitle().contains("Customer Login"));
 		driver.findElement(By.xpath("//a[@title = 'Create an Account']")).click();		
 		Assert.assertTrue(driver.getTitle().contains("Create New Customer Account"));

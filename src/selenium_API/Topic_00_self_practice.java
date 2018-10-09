@@ -2,34 +2,31 @@ package selenium_API;
 
 import org.testng.annotations.Test;
 
-import com.sun.glass.events.KeyEvent;
-import com.sun.glass.ui.Robot;
-import com.sun.org.apache.bcel.internal.generic.Select;
-
 import org.testng.annotations.BeforeClass;
 
-import java.util.List;
+import java.io.IOException;
+import java.sql.Driver;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.server.DriverSessions;
+import org.testng.annotations.AfterClass;
 import org.testng.Assert;
+import org.openqa.selenium.interactions.Actions;
+	
 import org.testng.annotations.AfterClass;
 
-//http://daominhdam.890m.com/
-public class Topic_02_XPath_CSS_self_practice {
+public class Topic_00_self_practice {
 	
 	WebDriver driver;
 	String WebUrl = "https://daominhdam.github.io/basic-form/"; 
+	String WebUrl1 = "https://www.guru99.com/become-an-instructor.html";
 	
 	@BeforeClass
 	public void beforeClass() {
@@ -39,6 +36,37 @@ public class Topic_02_XPath_CSS_self_practice {
 	}
 	
 	@Test
+	public void TC_00_AutoIT_Test() throws InterruptedException{
+		
+		driver.get(WebUrl1);
+		
+		Random ran = new Random();
+		int index = ran.nextInt(50);
+		
+		driver.switchTo().frame(driver.findElement(By.id("JotFormIFrame-71343386835462")));
+		driver.findElement(By.id("input_1")).sendKeys("p" + index);
+		driver.findElement(By.id("input_2")).sendKeys("p" + index+ "@gmail.com");
+		driver.findElement(By.id("input_3")).sendKeys("dddddp");
+		
+		driver.findElement(By.id("cid_7")).click();
+		// tai sao no ko run vay choi oi choi oi choi choi oi 
+		try
+		{
+			Runtime.getRuntime().exec("F:\\KP\\AutoIT\\FileUpload.exe");
+		}
+		catch (IOException e) {	e.printStackTrace();}
+		
+		Thread.sleep(10000);
+		if (driver.findElement(By.id("input_3")).isDisplayed())
+		{
+			System.out.println("tim dc roi tim dc roi");
+			driver.findElement(By.id("input_5")).click();
+		Thread.sleep(10000);
+		}
+		Assert.assertEquals("Your submission has been received.", driver.findElement(By.xpath("//div[@id='stage']/div/p")).getText());
+	}
+
+	@Test (enabled = false)
 	public void TC_01_XPath() throws InterruptedException {
 		driver.navigate().to(WebUrl);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -79,14 +107,12 @@ public class Topic_02_XPath_CSS_self_practice {
 		double value = 90;
 		
 		Actions action = new Actions(driver);
+		//Actions action = new Actions(driver);
 		WebElement slider = driver.findElement(By.id("slider-1"));	
 		if (value < max && value > min)
-		{	
 			action.dragAndDropBy(slider, (int) value, 0).build().perform();
-		}else
-		{
+		else
 			System.out.println("The value is out of range:" + min + " to " + max);
-		}	
 		
 		//kiem tra slider 2 bi disable
 		
@@ -115,7 +141,7 @@ public class Topic_02_XPath_CSS_self_practice {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
 		String originalWindowHandle = driver.getWindowHandle();
-		String strMainTitle = driver.getTitle();
+		//String strMainTitle = driver.getTitle();
 		Set<String> allWindowHandles = driver.getWindowHandles(); 
 		
 		for(String nwindow : allWindowHandles)
@@ -149,8 +175,7 @@ public class Topic_02_XPath_CSS_self_practice {
 		
 		// download window
 		
-		
-        DesiredCapabilities dc = DesiredCapabilities.firefox();     
+		/*DesiredCapabilities dc = DesiredCapabilities.firefox();     
 		//Create FireFox Profile object
 		FirefoxProfile firefoxProfile = new FirefoxProfile();
 		
@@ -178,27 +203,7 @@ public class Topic_02_XPath_CSS_self_practice {
 
         dc.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
         driver = new FirefoxDriver(dc);
-        driver.navigate().to("http://the-internet.herokuapp.com/download/some-file.txt");
-        
-		//driver.findElement(By.linkText("download.txt")).click();
-      
-        
-        
-		// ko click OK button dc
-		//driver = new FirefoxDriver(firefoxProfile);
-        
-        
-		/*for(String windowHandle: driver.getWindowHandles())
-		{
-
-			driver.switchTo().window(windowHandle);
-			String winTitle=driver.getTitle();
-			Assert.assertEquals(driver.getTitle(), "SELENIUM WEBDRIVER FORM DEMO");
-				//perform the action inside the popup
-
-		}*/
-			  
-		driver.close();		
+        driver.navigate().to("http://the-internet.herokuapp.com/download/some-file.txt");*/
 
 		//+++++++++++++++++++++++
 		
@@ -211,7 +216,7 @@ public class Topic_02_XPath_CSS_self_practice {
 	@AfterClass
 	public void afterClass() {
 		
-		//driver.navigate().refresh();
+		//driver.close();
 	}
 
 }

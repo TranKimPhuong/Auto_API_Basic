@@ -10,8 +10,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 
 public class Topic_03_XPath_CSS {
@@ -137,6 +135,14 @@ public class Topic_03_XPath_CSS {
 			System.out.println("Age Under 18 is selected");
 		else
 			driver.findElement(By.id("under_18")).click();
+	}
+	
+	public void isElementEnabled(WebElement element){
+		
+		if (element.isEnabled())
+			System.out.println("Element is enabled");
+		else
+			System.out.println("Element is disabled");
 	}
 
 	@AfterClass
