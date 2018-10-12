@@ -13,7 +13,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 
-public class Topic_02_Exercise2 {
+public class Topic_02_Textbox_TextArea {
 	
 	int TIMEOUT = 20;
 	WebDriver driver;

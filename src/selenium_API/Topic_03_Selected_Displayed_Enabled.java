@@ -12,7 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
 
-public class Topic_03_XPath_CSS {
+public class Topic_03_Selected_Displayed_Enabled {
 	
 	WebDriver driver;
 	String WebUrl = "https://daominhdam.github.io/basic-form/"; 

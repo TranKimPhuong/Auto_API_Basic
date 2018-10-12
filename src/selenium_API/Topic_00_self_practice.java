@@ -35,7 +35,7 @@ public class Topic_00_self_practice {
 		driver.manage().window().maximize();
 	}
 	
-	@Test
+	@Test(enabled = false)
 	public void TC_00_AutoIT_Test() throws InterruptedException{
 		
 		driver.get(WebUrl1);
@@ -52,7 +52,9 @@ public class Topic_00_self_practice {
 		// tai sao no ko run vay choi oi choi oi choi choi oi 
 		try
 		{
-			Runtime.getRuntime().exec("F:\\KP\\AutoIT\\FileUpload.exe");
+			Process exec = Runtime.getRuntime().exec("F:\\KP\\AutoIT\\FileUpload.exe");
+			int exitVal = exec.waitFor();
+			System.out.println("Exit value: " + exitVal);
 		}
 		catch (IOException e) {	e.printStackTrace();}
 		
@@ -66,7 +68,7 @@ public class Topic_00_self_practice {
 		Assert.assertEquals("Your submission has been received.", driver.findElement(By.xpath("//div[@id='stage']/div/p")).getText());
 	}
 
-	@Test (enabled = false)
+	@Test 
 	public void TC_01_XPath() throws InterruptedException {
 		driver.navigate().to(WebUrl);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -120,30 +122,26 @@ public class Topic_00_self_practice {
 		//driver.findElement(By.xpath("//a[@href='https://daominhdam.wordpress.com/2015/12/13/java-webdriver-08-kiem-tra-phan-tu-ton-tai-tren-page/']")).click();
 		driver.findElement(By.xpath("//a[contains(text(),'Element is display')]")).click();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);	
-		Assert.assertEquals("[Java – Webdriver 08] – Kiểm tra phần tử hiển thị trên page", "[Java – Webdriver 08] – Kiểm tra phần tử hiển thị trên page");
+		Assert.assertEquals("[Java â€“ Webdriver 08] â€“ Kiá»ƒm tra pháº§n tá»­ hiá»ƒn thá»‹ trÃªn page", "[Java â€“ Webdriver 08] â€“ Kiá»ƒm tra pháº§n tá»­ hiá»ƒn thá»‹ trÃªn page");
 		driver.navigate().back();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
 		driver.findElement(By.xpath("//a[contains(text(),'Element is disable')]")).click();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		Assert.assertEquals("[Java – Webdriver 09] – Kiểm tra phần tử bị disable","[Java – Webdriver 09] – Kiểm tra phần tử bị disable");
+		Assert.assertEquals("[Java â€“ Webdriver 09] â€“ Kiá»ƒm tra pháº§n tá»­ bá»‹ disable","[Java â€“ Webdriver 09] â€“ Kiá»ƒm tra pháº§n tá»­ bá»‹ disable");
 		driver.navigate().back();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
 		driver.findElement(By.xpath("//a[contains(text(),'Element is select')]")).click();
-		Assert.assertEquals("[Java – Webdriver 10] – Kiểm tra phần tử đã được chọn (selected)", "[Java – Webdriver 10] – Kiểm tra phần tử đã được chọn (selected)");
+		Assert.assertEquals("[Java â€“ Webdriver 10] â€“ Kiá»ƒm tra pháº§n tá»­ Ä‘Ã£ Ä‘Æ°á»£c chá»�n (selected)", "[Java â€“ Webdriver 10] â€“ Kiá»ƒm tra pháº§n tá»­ Ä‘Ã£ Ä‘Æ°á»£c chá»�n (selected)");
 		driver.navigate().back();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
-		
 		// multiple browser windows in different window browsers
 		driver.findElement(By.linkText("Click Here")).click();
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);		
 		String originalWindowHandle = driver.getWindowHandle();
-		//String strMainTitle = driver.getTitle();
-		Set<String> allWindowHandles = driver.getWindowHandles(); 
-		
+		Set<String> allWindowHandles = driver.getWindowHandles(); 		
 		for(String nwindow : allWindowHandles)
 		{
 			//way#1
@@ -174,36 +172,20 @@ public class Topic_00_self_practice {
 		Assert.assertEquals(driver.getTitle(), "SELENIUM WEBDRIVER FORM DEMO");
 		
 		// download window
+		// using wget
+		driver.findElement(By.linkText("download.txt")).click();
+		WebElement downloadBtn = driver.findElement(By.linkText("download.txt"));
+		String sourceLocation = downloadBtn.getAttribute("href");
+        String wget_cmd = "cmd /c E:\\KP\\Software\\Wget\\wget.exe -P E:\\KP\\Download --no-check-certificate " + sourceLocation;
 		
-		/*DesiredCapabilities dc = DesiredCapabilities.firefox();     
-		//Create FireFox Profile object
-		FirefoxProfile firefoxProfile = new FirefoxProfile();
+        try {
+			Process exec = Runtime.getRuntime().exec(wget_cmd);
+			int exitVal = exec.waitFor();
+			System.out.println("Exit value: " + exitVal);
+		}catch (InterruptedException | IOException ex){
+			System.out.println(ex.toString());
+		}
 		
-		firefoxProfile.setAcceptUntrustedCertificates(true);
-		
-		//Set Location to store files after downloading
-		firefoxProfile.setPreference("browser.download.folderList", 2);//When set to 0, Firefox will save all files on the user’s desktop. 1 saves the files in the Downloads folder and 2 saves file at the location specified for the most recent download.
-		firefoxProfile.setPreference("browser.download.dir","c:\\downloads");
-		
-		//Set Preference to not show file download confirmation dialogue using MIME types Of different file extension types.
-		firefoxProfile.setPreference("browser.helperApps.neverAsk.saveToDisk", 
-			    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;"); 	// full type of MINE	
-		
-		firefoxProfile.setPreference("browser.download.manager.showWhenStarting", false);
-		firefoxProfile.setPreference("browser.download.manager.focusWhenStarting", false);
-		firefoxProfile.setPreference("browser.download.useDownloadDir", true);
-		
-		firefoxProfile.setPreference("browser.helperApps.alwaysAsk.force", false);
-		firefoxProfile.setPreference("browser.download.manager.alertOnEXEOpen", false);
-		firefoxProfile.setPreference("browser.download.manager.closeWhenDone", true);
-		firefoxProfile.setPreference("browser.download.manager.showAlertOnComplete", false);
-		firefoxProfile.setPreference("browser.download.manager.useWindow", true);
-		firefoxProfile.setPreference("services.sync.prefs.sync.browser.download.manager.showWhenStarting", false);
-		firefoxProfile.setPreference("pdfjs.disabled", true);
-
-        dc.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
-        driver = new FirefoxDriver(dc);
-        driver.navigate().to("http://the-internet.herokuapp.com/download/some-file.txt");*/
 
 		//+++++++++++++++++++++++
 		
@@ -216,7 +198,7 @@ public class Topic_00_self_practice {
 	@AfterClass
 	public void afterClass() {
 		
-		//driver.close();
+		driver.quit();
 	}
 
 }
