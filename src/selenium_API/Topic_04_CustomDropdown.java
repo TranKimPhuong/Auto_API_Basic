@@ -5,10 +5,15 @@ import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 
 import org.openqa.selenium.By;
@@ -32,13 +37,7 @@ public class Topic_04_CustomDropdown {
 	String WebUrl2 = "http://jqueryui.com/resources/demos/selectmenu/default.html";
 	String WebUrl3 = "https://material.angular.io/components/select/examples";
 	String WebUrl4 = "https://demos.telerik.com/kendo-ui/dropdownlist/index";
-	
 	String WebUrl5 = "https://mikerodham.github.io/vue-dropdowns/";
-	String WebUrl6 = "http://indrimuska.github.io/jquery-editable-select/";
-	
-	//advance
-	String WebUrl7 = "http://wenzhixin.net.cn/p/multiple-select/docs/";
-	String WebUrl8 = "https://semantic-ui.com/modules/dropdown.html";
 
 	@BeforeClass
 	public void beforeClass() {	
@@ -64,7 +63,6 @@ public class Topic_04_CustomDropdown {
 	public void TC_00_WebElement() throws InterruptedException {
 		// textbox, checkbox, textare, dropdownlist...
 	}
-	
 	@Test(enabled = false)
 	public void TC_01_Html_Dropdown() throws InterruptedException {
 		driver.get(WebUrl1);
@@ -83,9 +81,8 @@ public class Topic_04_CustomDropdown {
 		//Assert.assertTrue(selector.getAllSelectedOptions().size() == 5); => sai
 		Assert.assertTrue(selector.getOptions().size() == 5);
 	}
-	
-	@Test
-	public void TC_02_Custom_Dropdown() throws Exception {
+	@Test(enabled = false)
+	public void TC_02_CustomDropdown() throws Exception {
 		/*//JQUERY
 		driver.get(WebUrl2);
 		SelectOneItemInDropDown("//span[@id='number-button']", "//ul[@id='number-menu']/li[@class='ui-menu-item']/div", "19");
@@ -110,50 +107,213 @@ public class Topic_04_CustomDropdown {
 		String WebUrl7 = "http://wenzhixin.net.cn/p/multiple-select/docs/";
 		String WebUrl8 = "https://semantic-ui.com/modules/dropdown.html";
 		*/
+		
 		//VUE
-/*		driver.get(WebUrl5);
+		driver.get(WebUrl5);
 		SelectOneItemInDropDown("//li [@class='dropdown-toggle']", "//a [@data-v-3ec2ada6='']", "Third Option");	
 		Assert.assertTrue(driver.findElement(By.xpath("//li [@class='dropdown-toggle']")).getText().equals("Third Option"));	
-	*/
-		//filter
-		driver.get(WebUrl6);
-		Thread.sleep(2000);
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		//WebElement element = driver.findElement(By.xpath("//div [@id='default-place']//input [@class='form-control es-input']"));	
-		//js.executeScript("$('#default-place').click();");
-
 		
-		List <WebElement> lstAllItems = driver.findElements(By.xpath("//div[@id='default-place']/ul/li"));	
-		wait.until(ExpectedConditions.visibilityOfAllElements(lstAllItems));
-		for(WebElement e: lstAllItems) 
-		{	//		System.out.println(e.getText());
-			if (e.getText().trim().contains("A"))
-			{
-				js.executeScript("arguments[0].scrollIntoView();", e);			
-				//e.click();
-				break;
-			}
-		}
-		Thread.sleep(1200);	
-		Assert.assertTrue(driver.findElement(By.xpath("//li [@class='dropdown-toggle']")).getText().equals("Third Option"));	
-	
 	}
-	
-	
-	@Test(enabled = false)
-	public void TC_03_Custom_Dropdown() throws Exception {
+	@Test//(enabled = false)
+	public void TC_02_CustomDropdown_Editableselect() throws Exception {	
+		//JQuery plugin
+		//TODO: lam chua dc
+		driver.get("http://indrimuska.github.io/jquery-editable-select/");
 		
+		String expectedValue = "R";
+		driver.findElement(By.xpath("//div[@id='default-place']/input")).click();
+		driver.findElement(By.xpath("//div[@id='default-place']/input")).sendKeys("R");
+		
+		List<WebElement> allitems = driver.findElements(By.xpath("//div[@id='default-place']/ul/li[@class='es-visible']"));
+		for(WebElement e:allitems) {
+			System.out.println(e.getText());
+			Assert.assertTrue(e.getText().toUpperCase().contains(expectedValue));
+		}	
+	}
+	@Test(enabled = false)
+	public void TC_02_CustomDropdown_MultiSelect() throws Exception {		
+		////JQuery plugin
+		//---co tagname = select, ma lay roi chon no ko hieu 
+		
+		driver.get("http://wenzhixin.net.cn/p/multiple-select/docs/");		
+		/*--chọn 1 trg 12 cái => hiện đúng cái chọn--*/
+				/*SelectOneItemInDropDown("//p[@id='e1_t']/div/button", "//p[@id='e1_t']/div/div/ul/li/label/span", "November");
+				Assert.assertTrue(driver.findElement(By.xpath("//p[@id='e1_t']/div/button/span")).getText().equals("November"));
+				*/
+		
+		/*--chọn 3 cai random => hiện đúng cái chọn--*/	
+				/*List<String> expectedValue = Arrays.asList(PickMonthRandom());	
+				SelectManyItemsInDropDown("//p[@id='e1_t']/div/button","//p[@id='e1_t']/div/div/ul/li/label/span", expectedValue );
+				CustomSort(expectedValue);
+				
+				String[] temp = driver.findElement(By.xpath("//p[@id='e1_t']/div/button/span")).getText().split(", ");	
+				List<String> actualValue = Arrays.asList(temp);
+				CustomSort(actualValue);
+				Assert.assertEquals(new HashSet<String>(actualValue), new HashSet<String>(expectedValue));
+				 */
+		
+		/*--- chọn 5 cái  => hiện 5/12--*/
+				/*List<String> expectedValue = Stream.of("January", "September", "October", "November", "December").collect(Collectors.toList());
+				SelectManyItemsInDropDown("//p[@id='e1_t']/div/button","//p[@id='e1_t']/div/div/ul/li/label/span", expectedValue );
+				Thread.sleep(1200);
+
+				//kiem tra : hien 5 of 12 selected
+				String newExpectedValue = "";
+				if (expectedValue.size() > 3 && expectedValue.size() < 12)
+					newExpectedValue = String.valueOf(expectedValue.size()) + " of 12 selected";
+				Thread.sleep(1200);
+				Assert.assertEquals(driver.findElement(By.xpath("//p[@id='e1_t']/div/button/span")).getText(),newExpectedValue);
+				Thread.sleep(1200);*/
+
+		/*--- chọn select all--*/
+				SelectOneItemInDropDown("//p[@id='e1_t']/div/button", "//p[@id='e1_t']/div/div/ul/li/label", "[Select all]");
+				Thread.sleep(1200);	
+				//kiem tra : hien All selected
+				Assert.assertTrue(driver.findElement(By.xpath("//p[@id='e1_t']/div/button/span")).getText().equals("All selected"));
+				Thread.sleep(1200);
+	}
+	@Test(enabled = false)
+	public void TC_02_CustomDropdown_MaximunSelections() throws Exception {
+		driver.get("https://semantic-ui.com/modules/dropdown.html");		
+		Thread.sleep(1200);
+		List<String> expectedValue = Stream.of("Mechanical Engineering", "React", "UI Design", "Meteor", "Ember").collect(Collectors.toList());
+		SelectManyItemsInDropDown("//div[@class= 'ui fluid dropdown selection multiple']", "//div[@class='menu transition visible']/div", expectedValue);
+		CustomSort(expectedValue);
+		Thread.sleep(1200);
+		
+		// move len tren de move xuong tro lai
+		driver.findElement(By.xpath("//div [@class='article']")).click();	
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		WebElement element = driver.findElement(By.xpath("//div [@class='ui fluid dropdown selection multiple']"));
+		js.executeScript("arguments[0].scrollIntoView(true);", element);			
+		Thread.sleep(1200);
+		
+		List<String> actualValue = new ArrayList<String>(); 
+		List<WebElement> allSelectedItems = driver.findElements(By.xpath("//div [@class='ui fluid dropdown selection multiple']/a"));	
+		for(WebElement e: allSelectedItems) 
+		{
+			//System.out.println(e.getText());
+			actualValue.add(e.getText());
+		}
+		
+		CustomSort(actualValue);
+		Assert.assertEquals(new HashSet<String>(actualValue), new HashSet<String>(expectedValue));
+	}
+	@Test(enabled = false)
+	public void TC_02_CustomDropdown_FlagsAndCountry() throws Exception {
+		driver.get("https://semantic-ui.com/modules/dropdown.html");		
+		Thread.sleep(1200);
+		List<String> expectedValue = Stream.of("Bangladesh", "Cayman Islands", "Vatican City", "Uganda", "Togo", "Sweden"
+				, "Solomon Islands",
+				"Rwanda", "Palestine", "North Korea", "Moldova", "Zimbabwe", "Wallis and Futuna", "Albania", "Vietnam").collect(Collectors.toList());
+		SelectManyItemsInDropDown("//div [@class='another dropdown example']/div [@class='ui fluid multiple search selection dropdown']", "//div [@class='menu transition visible']/div", expectedValue);
+		CustomSort(expectedValue);
+		Thread.sleep(1200);
+		
+		// move len tren de move xuong tro lai
+		driver.findElement(By.xpath("//div [@class='article']")).click();	
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		WebElement element = driver.findElement(By.xpath("//div [@class='another dropdown example']/div [@class='ui fluid multiple search selection dropdown']"));
+		js.executeScript("arguments[0].scrollIntoView(true);", element);			
+		Thread.sleep(1200);
+		
+		List<String> actualValue = new ArrayList<String>(); 
+		List<WebElement> allSelectedItems = driver.findElements(By.xpath("//div [@class='another dropdown example']/div [@class='ui fluid multiple search selection dropdown']/a"));	
+		for(WebElement e: allSelectedItems) 
+		{
+			//System.out.println(e.getText());
+			actualValue.add(e.getText());
+		}
+		
+		CustomSort(actualValue);
+		Assert.assertEquals(new HashSet<String>(actualValue), new HashSet<String>(expectedValue));
 	}
 	@AfterClass
 	public void afterClass() {	
 		driver.quit();
 	}
 	
+	public String[] PickMonthRandom() {
+		String[] arrReturn = new String[3];
+		Random rd = new Random();
+		
+		// avoid case no = 0
+		int no1 = rd.nextInt(11) + 1;
+		int no2 = rd.nextInt(11) + 1;
+		int no3 = rd.nextInt(11) + 1;
+		
+		System.out.println(no1);
+		System.out.println(no2);
+		System.out.println(no3);
+		Assert.assertTrue(no1!=no2);
+		Assert.assertTrue(no2!=no3);
+		Assert.assertTrue(no1!=no3);
+		
+		arrReturn[0] = ConvertNumberToTextMonth(no1);
+		arrReturn[1] = ConvertNumberToTextMonth(no2);
+		arrReturn[2] = ConvertNumberToTextMonth(no3);
+		
+		return arrReturn;
+	}
+	public String ConvertNumberToTextMonth(int no) {
+		String month = "";
+		switch (no)
+		{
+			case 1:
+				month = "January";
+				break;
+			case 2:
+				month = "February";
+				break;
+			case 3:
+				month = "March";
+				break;
+			case 4:
+				month = "April";
+				break;
+			case 5:
+				month = "May";
+				break;
+			case 6:
+				month = "June";
+				break;
+			case 7:
+				month = "July";
+				break;
+			case 8:
+				month = "August";
+				break;
+			case 9:
+				month = "September";
+				break;
+			case 10:
+				month = "October";
+				break;
+			case 11:
+				month = "November";
+				break;
+			case 12:
+				month = "December";
+				break;
+		}
+		return month;
+	}
+	public void CustomSort(List<String> expectedValue) {
+		Collections.sort(expectedValue, new Comparator<String>() {
+	        @Override
+	        public int compare(String p1, String p2) {
+	            return p1.compareTo(p2); 
+	        }
+	    });
+		
+	}
 	public void SelectManyItemsInDropDown(String parentLocator, String childLocator, List<String> expectedValue) throws InterruptedException{		
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		WebElement element = driver.findElement(By.xpath(parentLocator));
-		js.executeScript("arguments[0].click();", element);	
-	
+		//js.executeScript("arguments[0].click();", element);	
+		js.executeScript("arguments[0].scrollIntoView(true);", element);	
+		element.click();
+		Thread.sleep(1200);
 		List <WebElement> lstAllItems = driver.findElements(By.xpath(childLocator));	
 		wait.until(ExpectedConditions.visibilityOfAllElements(lstAllItems));
 		for(WebElement e: lstAllItems) 
@@ -161,29 +321,27 @@ public class Topic_04_CustomDropdown {
 			int index = expectedValue.indexOf(e.getText().trim());	
 			if (index>-1)
 			{
-				js.executeScript("arguments[0].scrollIntoView();", e);			
+				js.executeScript("arguments[0].scrollIntoView(true);", e);			
 				e.click();
-				break;
 			}
 		}
 		Thread.sleep(1200);	
 	}
-	
 	public void SelectOneItemInDropDown(String parentLocator, String childLocator, String expectedValue) throws InterruptedException{		
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		WebElement element = driver.findElement(By.xpath(parentLocator));
-		js.executeScript("arguments[0].click();", element);	
+		//js.executeScript("arguments[0].click();", element);	
 		//or
-		/*js.executeScript("arguments[0].scrollIntoView(false);", element);	
-		element.click();*/
-	
+		js.executeScript("arguments[0].scrollIntoView(true);", element);	
+		element.click();
+		Thread.sleep(1200);
 		List <WebElement> lstAllItems = driver.findElements(By.xpath(childLocator));	
 		wait.until(ExpectedConditions.visibilityOfAllElements(lstAllItems));
 		for(WebElement e: lstAllItems) 
 		{	//		System.out.println(e.getText());
 			if (e.getText().trim().equals(expectedValue))
 			{
-				js.executeScript("arguments[0].scrollIntoView();", e);			
+				js.executeScript("arguments[0].scrollIntoView(true);", e);			
 				e.click();
 				break;
 			}
