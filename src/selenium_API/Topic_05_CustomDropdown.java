@@ -29,7 +29,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 
 
-public class Topic_04_CustomDropdown {
+public class Topic_05_CustomDropdown {
 	WebDriver driver; 
 	WebDriverWait wait;
 	
@@ -83,7 +83,7 @@ public class Topic_04_CustomDropdown {
 	}
 	@Test(enabled = false)
 	public void TC_02_CustomDropdown() throws Exception {
-		/*//JQUERY
+		//JQUERY
 		driver.get(WebUrl2);
 		SelectOneItemInDropDown("//span[@id='number-button']", "//ul[@id='number-menu']/li[@class='ui-menu-item']/div", "19");
 		Assert.assertTrue(driver.findElement(By.xpath("//span[@id='number-button']/span[@class='ui-selectmenu-text']")).getText().compareTo("19") == 0);
@@ -99,14 +99,6 @@ public class Topic_04_CustomDropdown {
 		SelectManyItemsInDropDown("//span[@aria-owns='color_listbox']//span[@class='k-input']", "//ul[@id='color_listbox']/li", expectedValue);			
 		Set<String> actualValue = Stream.of(driver.findElement(By.xpath("//span[@aria-owns='color_listbox']//span[@class='k-input']")).getText()).collect(Collectors.toSet());
 		Assert.assertEquals(actualValue, new HashSet<String>(expectedValue));	
-
-		String WebUrl5 = "https://mikerodham.github.io/vue-dropdowns/";
-		String WebUrl6 = "http://indrimuska.github.io/jquery-editable-select/";
-		
-		//advance
-		String WebUrl7 = "http://wenzhixin.net.cn/p/multiple-select/docs/";
-		String WebUrl8 = "https://semantic-ui.com/modules/dropdown.html";
-		*/
 		
 		//VUE
 		driver.get(WebUrl5);
@@ -114,66 +106,82 @@ public class Topic_04_CustomDropdown {
 		Assert.assertTrue(driver.findElement(By.xpath("//li [@class='dropdown-toggle']")).getText().equals("Third Option"));	
 		
 	}
-	@Test//(enabled = false)
-	public void TC_02_CustomDropdown_Editableselect() throws Exception {	
+	@Test(enabled = false)
+	public void TC_03_CustomDropdown_Editableselect() throws Exception {	
 		//JQuery plugin
-		//TODO: lam chua dc
 		driver.get("http://indrimuska.github.io/jquery-editable-select/");
 		
 		String expectedValue = "R";
-		driver.findElement(By.xpath("//div[@id='default-place']/input")).click();
-		driver.findElement(By.xpath("//div[@id='default-place']/input")).sendKeys("R");
+		WebElement elementParent = driver.findElement(By.xpath("//div[@id='default-place']/input"));
+		elementParent.click();
+		elementParent.sendKeys("R");
+		Thread.sleep(1200);
 		
+		/*Verify: all texts contain "R" or "r"*/
 		List<WebElement> allitems = driver.findElements(By.xpath("//div[@id='default-place']/ul/li[@class='es-visible']"));
 		for(WebElement e:allitems) {
 			System.out.println(e.getText());
 			Assert.assertTrue(e.getText().toUpperCase().contains(expectedValue));
 		}	
+		/*Get index and select that item*/
+		int indexRandom = PickNumberRandom(allitems.size());
+		allitems.get(indexRandom).click();
+		String selectedValue = allitems.get(indexRandom).getText();
+		Thread.sleep(1200);
+		
+		/*Move to top and move to element*/
+		JavascriptExecutor js = (JavascriptExecutor) driver; 
+		js.executeScript("window.scrollBy(0,-document.body.scrollHeight || -document.documentElement.scrollHeight)", "");		
+		js.executeScript("arguments[0].scrollIntoView(true);", elementParent);
+		elementParent.click();	
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='default-place']/ul/li[text()='"+ selectedValue + "']")).isDisplayed());
+		
 	}
 	@Test(enabled = false)
-	public void TC_02_CustomDropdown_MultiSelect() throws Exception {		
-		////JQuery plugin
+	public void TC_04_CustomDropdown_MultiSelect() throws Exception {		
+		////JQuery plugin, checkbox and text
 		//---co tagname = select, ma lay roi chon no ko hieu 
 		
 		driver.get("http://wenzhixin.net.cn/p/multiple-select/docs/");		
 		/*--chọn 1 trg 12 cái => hiện đúng cái chọn--*/
-				/*SelectOneItemInDropDown("//p[@id='e1_t']/div/button", "//p[@id='e1_t']/div/div/ul/li/label/span", "November");
+				SelectOneItemInDropDown("//p[@id='e1_t']/div/button", "//p[@id='e1_t']/div/div/ul/li/label/span", "November");
 				Assert.assertTrue(driver.findElement(By.xpath("//p[@id='e1_t']/div/button/span")).getText().equals("November"));
-				*/
-		
-		/*--chọn 3 cai random => hiện đúng cái chọn--*/	
-				/*List<String> expectedValue = Arrays.asList(PickMonthRandom());	
-				SelectManyItemsInDropDown("//p[@id='e1_t']/div/button","//p[@id='e1_t']/div/div/ul/li/label/span", expectedValue );
-				CustomSort(expectedValue);
+				driver.navigate().refresh();
+				Thread.sleep(1200);
 				
+		/*--chọn 3 cai random => hiện đúng cái chọn--*/	
+				List<String> expectedValue = Arrays.asList(PickMonthRandom());	
+				SelectManyItemsInDropDown("//p[@id='e1_t']/div/button","//p[@id='e1_t']/div/div/ul/li/label/span", expectedValue );
+				
+				CustomSort(expectedValue);				
 				String[] temp = driver.findElement(By.xpath("//p[@id='e1_t']/div/button/span")).getText().split(", ");	
 				List<String> actualValue = Arrays.asList(temp);
 				CustomSort(actualValue);
 				Assert.assertEquals(new HashSet<String>(actualValue), new HashSet<String>(expectedValue));
-				 */
-		
-		/*--- chọn 5 cái  => hiện 5/12--*/
-				/*List<String> expectedValue = Stream.of("January", "September", "October", "November", "December").collect(Collectors.toList());
-				SelectManyItemsInDropDown("//p[@id='e1_t']/div/button","//p[@id='e1_t']/div/div/ul/li/label/span", expectedValue );
+				driver.navigate().refresh();
 				Thread.sleep(1200);
+				
+		/*--- chọn 5 cái  => hiện 5/12--*/
+				expectedValue = Stream.of("January", "September", "October", "November", "December").collect(Collectors.toList());
+				SelectManyItemsInDropDown("//p[@id='e1_t']/div/button","//p[@id='e1_t']/div/div/ul/li/label/span", expectedValue );
 
-				//kiem tra : hien 5 of 12 selected
+				//Verify : display "5 of 12 selected"
 				String newExpectedValue = "";
 				if (expectedValue.size() > 3 && expectedValue.size() < 12)
 					newExpectedValue = String.valueOf(expectedValue.size()) + " of 12 selected";
 				Thread.sleep(1200);
 				Assert.assertEquals(driver.findElement(By.xpath("//p[@id='e1_t']/div/button/span")).getText(),newExpectedValue);
-				Thread.sleep(1200);*/
-
-		/*--- chọn select all--*/
-				SelectOneItemInDropDown("//p[@id='e1_t']/div/button", "//p[@id='e1_t']/div/div/ul/li/label", "[Select all]");
-				Thread.sleep(1200);	
-				//kiem tra : hien All selected
-				Assert.assertTrue(driver.findElement(By.xpath("//p[@id='e1_t']/div/button/span")).getText().equals("All selected"));
+				driver.navigate().refresh();
 				Thread.sleep(1200);
+				
+		/*--- chọn select all => 	Verify : Display "All selected"--*/
+				SelectOneItemInDropDown("//p[@id='e1_t']/div/button", "//p[@id='e1_t']/div/div/ul/li/label", "[Select all]");
+				Assert.assertTrue(driver.findElement(By.xpath("//p[@id='e1_t']/div/button/span")).getText().equals("All selected"));
+
 	}
 	@Test(enabled = false)
-	public void TC_02_CustomDropdown_MaximunSelections() throws Exception {
+	public void TC_05_CustomDropdown_MaximunSelections() throws Exception {
+	
 		driver.get("https://semantic-ui.com/modules/dropdown.html");		
 		Thread.sleep(1200);
 		List<String> expectedValue = Stream.of("Mechanical Engineering", "React", "UI Design", "Meteor", "Ember").collect(Collectors.toList());
@@ -181,7 +189,7 @@ public class Topic_04_CustomDropdown {
 		CustomSort(expectedValue);
 		Thread.sleep(1200);
 		
-		// move len tren de move xuong tro lai
+		// move up to top and move to element
 		driver.findElement(By.xpath("//div [@class='article']")).click();	
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		WebElement element = driver.findElement(By.xpath("//div [@class='ui fluid dropdown selection multiple']"));
@@ -200,7 +208,7 @@ public class Topic_04_CustomDropdown {
 		Assert.assertEquals(new HashSet<String>(actualValue), new HashSet<String>(expectedValue));
 	}
 	@Test(enabled = false)
-	public void TC_02_CustomDropdown_FlagsAndCountry() throws Exception {
+	public void TC_06_CustomDropdown_FlagsAndCountry() throws Exception {
 		driver.get("https://semantic-ui.com/modules/dropdown.html");		
 		Thread.sleep(1200);
 		List<String> expectedValue = Stream.of("Bangladesh", "Cayman Islands", "Vatican City", "Uganda", "Togo", "Sweden"
@@ -210,7 +218,7 @@ public class Topic_04_CustomDropdown {
 		CustomSort(expectedValue);
 		Thread.sleep(1200);
 		
-		// move len tren de move xuong tro lai
+		// move up to top and then move to element
 		driver.findElement(By.xpath("//div [@class='article']")).click();	
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		WebElement element = driver.findElement(By.xpath("//div [@class='another dropdown example']/div [@class='ui fluid multiple search selection dropdown']"));
@@ -233,14 +241,18 @@ public class Topic_04_CustomDropdown {
 		driver.quit();
 	}
 	
+	public int PickNumberRandom(int limit) {
+		Random rd = new Random();
+		return rd.nextInt(limit);
+	}
+	
 	public String[] PickMonthRandom() {
 		String[] arrReturn = new String[3];
-		Random rd = new Random();
 		
 		// avoid case no = 0
-		int no1 = rd.nextInt(11) + 1;
-		int no2 = rd.nextInt(11) + 1;
-		int no3 = rd.nextInt(11) + 1;
+		int no1 = PickNumberRandom(11) + 1;
+		int no2 = PickNumberRandom(11) + 1;
+		int no3 = PickNumberRandom(11) + 1;
 		
 		System.out.println(no1);
 		System.out.println(no2);

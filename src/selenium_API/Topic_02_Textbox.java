@@ -13,7 +13,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 
-public class Topic_02_Textbox_TextArea {
+public class Topic_02_Textbox {
 	
 	int TIMEOUT = 20;
 	WebDriver driver;
@@ -67,7 +67,7 @@ public class Topic_02_Textbox_TextArea {
 		Assert.assertEquals(driver.findElement(By.id("advice-validate-password-pass")).getText(), "Please enter 6 or more characters without leading or trailing spaces.");
 	}
 	
-	@Test
+	@Test(enabled=false)
 	public void TC_05_Create_an_account() throws InterruptedException {
 
 		driver.findElement(By.xpath("//div[@class='footer-container']//a[@title='My Account']")).click();

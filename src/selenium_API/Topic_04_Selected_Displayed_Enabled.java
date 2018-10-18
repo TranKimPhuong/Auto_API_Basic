@@ -12,7 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
 
-public class Topic_03_Selected_Displayed_Enabled {
+public class Topic_04_Selected_Displayed_Enabled {
 	
 	WebDriver driver;
 	String WebUrl = "https://daominhdam.github.io/basic-form/"; 
@@ -43,7 +43,7 @@ public class Topic_03_Selected_Displayed_Enabled {
 			System.out.println("Education area isnot displayed");			
 	}
 	@Test
-	public void TC_01_Element_IsEnabledd() throws Exception	{
+	public void TC_02_Element_IsEnabledd() throws Exception	{
 		
 		if (driver.findElement(By.id("mail")).isEnabled())
 			System.out.println("Email textbox is enabled");
@@ -82,7 +82,7 @@ public class Topic_03_Selected_Displayed_Enabled {
 	}
 	
 	@Test
-	public void TC_02_Element_IsDisabled() throws Exception
+	public void TC_03_Element_IsDisabled() throws Exception
 	{
 		if (driver.findElement(By.id("password")).isEnabled())
 			System.out.println("Password textbox is enabled");
@@ -121,7 +121,7 @@ public class Topic_03_Selected_Displayed_Enabled {
 	}
 	
 	@Test
-	public void TC_03_Element_IsSelected() {
+	public void TC_04_Element_IsSelected() {
 		
 		driver.findElement(By.id("under_18")).click();
 		driver.findElement(By.id("development")).click();
