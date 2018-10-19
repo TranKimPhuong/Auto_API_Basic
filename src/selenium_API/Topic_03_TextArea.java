@@ -18,17 +18,16 @@ import org.testng.annotations.AfterClass;
 public class Topic_03_TextArea {
 	
 	WebDriver driver;
-	int no = GetNoRandom();
-	String inputName = "PhuongTruong";
-	String inputAddress = "Tinh lo 10";
-	String customerID = "";
-
+	String inputName, inputAddress ;
+	String customerID = "";	
+	String newAdd, newCity , newState, newPIN, newPhone, newEmail;
+	int no;
+	
 	@BeforeClass
 	public void beforeClass() {
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);	
 		driver.manage().window().maximize();
-
 	}
 	
 	@Test
@@ -40,7 +39,21 @@ public class Topic_03_TextArea {
 		driver.findElement(By.name("password")).sendKeys("aqAtAda");
 		driver.findElement(By.name("btnLogin")).click();	
 		Assert.assertTrue(driver.getTitle().trim().equals("Guru99 Bank Manager HomePage"));
+		
+		// enter new value
+		inputName = "PhuongTruong";
+		inputAddress = "Tinh lo 10";
+		no = GetNoRandom();
+		
+		//Enter new value for all enabled fields
+		newAdd = "Nguyen Van dau";
+		newCity = "HCMCity";
+		newState = "Binh thanh";
+		newPIN = "456789";
+		newPhone = "0907520000";
+		newEmail = "eee" + no + "@gmail.com";
 	}
+	
 	@Test
 	public void TC_01_AddNewCustomer() throws Exception
 	{
@@ -63,6 +76,7 @@ public class Topic_03_TextArea {
 		customerID  = driver.findElement(By.xpath("//td[text()='Customer ID']/following-sibling::td")).getText();
 		System.out.println(customerID);
 	}
+	
 	@Test
 	public void TC_02_EditCustomer() throws Exception
 	{
@@ -74,15 +88,7 @@ public class Topic_03_TextArea {
 		/*Verify Customer Name và Address*/
 		Assert.assertTrue(driver.findElement(By.name("name")).getAttribute("value").equals(inputName));
 		Assert.assertTrue(driver.findElement(By.name("addr")).getText().trim().equals(inputAddress));
-		
-		//Enter new value for all enabled fields
-		String newAdd = "Nguyen Van dau";
-		String newCity = "HCMCity";
-		String newState = "Binh thanh";
-		String newPIN = "456789";
-		String newPhone = "0907520000";
-		String newEmail = "eee" + no + "@gmail.com";
-		
+				
 		driver.findElement(By.name("addr")).clear();
 		driver.findElement(By.name("addr")).sendKeys(newAdd);
 		driver.findElement(By.name("city")).clear();

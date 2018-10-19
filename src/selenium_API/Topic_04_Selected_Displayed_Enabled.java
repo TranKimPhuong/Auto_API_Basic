@@ -24,6 +24,7 @@ public class Topic_04_Selected_Displayed_Enabled {
 		driver.manage().window().maximize();
 		driver.get(WebUrl);
 	}
+	
 	@Test
 	public void TC_01_Element_IsDisplayed() throws Exception
 	{
@@ -42,6 +43,7 @@ public class Topic_04_Selected_Displayed_Enabled {
 		else
 			System.out.println("Education area isnot displayed");			
 	}
+	
 	@Test
 	public void TC_02_Element_IsEnabledd() throws Exception	{
 		

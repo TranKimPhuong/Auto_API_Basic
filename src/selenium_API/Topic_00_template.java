@@ -23,8 +23,9 @@ public class Topic_00_template {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);	
 		driver.manage().window().maximize();
 	}
+	
 	@Test
-	public void TC_01_1_TextBoxIsDisable(WebDriver driver, WebElement webe) throws Exception
+	public void TC_01_TextBoxIsDisable(WebDriver driver, WebElement webe) throws Exception
 	{		
 		driver.get(WebUrl);
 	}

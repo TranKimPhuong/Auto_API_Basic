@@ -27,7 +27,7 @@ public class Topic_01_SetUpEnvironment {
 		
 		Assert.assertEquals(title, "Google");
 	}
-// clean up
+
 	@AfterClass
 	public void afterClass() {
 		driver.quit();

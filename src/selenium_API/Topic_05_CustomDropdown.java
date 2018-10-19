@@ -59,12 +59,14 @@ public class Topic_05_CustomDropdown {
 		//String pageSource = driver.getPageSource();
 		
 	}
+	
 	@Test(enabled = false)
-	public void TC_00_WebElement() throws InterruptedException {
+	public void TC_01_WebElement() throws InterruptedException {
 		// textbox, checkbox, textare, dropdownlist...
 	}
+	
 	@Test(enabled = false)
-	public void TC_01_Html_Dropdown() throws InterruptedException {
+	public void TC_02_Html_Dropdown() throws InterruptedException {
 		driver.get(WebUrl1);
 		Select selector = new Select(driver.findElement(By.id("job1")));
 		Assert.assertTrue(selector.isMultiple());
@@ -81,8 +83,9 @@ public class Topic_05_CustomDropdown {
 		//Assert.assertTrue(selector.getAllSelectedOptions().size() == 5); => sai
 		Assert.assertTrue(selector.getOptions().size() == 5);
 	}
+	
 	@Test(enabled = false)
-	public void TC_02_CustomDropdown() throws Exception {
+	public void TC_03_CustomDropdown() throws Exception {
 		//JQUERY
 		driver.get(WebUrl2);
 		SelectOneItemInDropDown("//span[@id='number-button']", "//ul[@id='number-menu']/li[@class='ui-menu-item']/div", "19");
@@ -106,8 +109,9 @@ public class Topic_05_CustomDropdown {
 		Assert.assertTrue(driver.findElement(By.xpath("//li [@class='dropdown-toggle']")).getText().equals("Third Option"));	
 		
 	}
+	
 	@Test(enabled = false)
-	public void TC_03_CustomDropdown_Editableselect() throws Exception {	
+	public void TC_04_CustomDropdown_Editableselect() throws Exception {	
 		//JQuery plugin
 		driver.get("http://indrimuska.github.io/jquery-editable-select/");
 		
@@ -137,8 +141,9 @@ public class Topic_05_CustomDropdown {
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='default-place']/ul/li[text()='"+ selectedValue + "']")).isDisplayed());
 		
 	}
+	
 	@Test(enabled = false)
-	public void TC_04_CustomDropdown_MultiSelect() throws Exception {		
+	public void TC_05_CustomDropdown_MultiSelect() throws Exception {		
 		////JQuery plugin, checkbox and text
 		//---co tagname = select, ma lay roi chon no ko hieu 
 		
@@ -179,8 +184,9 @@ public class Topic_05_CustomDropdown {
 				Assert.assertTrue(driver.findElement(By.xpath("//p[@id='e1_t']/div/button/span")).getText().equals("All selected"));
 
 	}
+	
 	@Test(enabled = false)
-	public void TC_05_CustomDropdown_MaximunSelections() throws Exception {
+	public void TC_06_CustomDropdown_MaximunSelections() throws Exception {
 	
 		driver.get("https://semantic-ui.com/modules/dropdown.html");		
 		Thread.sleep(1200);
@@ -207,13 +213,14 @@ public class Topic_05_CustomDropdown {
 		CustomSort(actualValue);
 		Assert.assertEquals(new HashSet<String>(actualValue), new HashSet<String>(expectedValue));
 	}
+	
 	@Test(enabled = false)
-	public void TC_06_CustomDropdown_FlagsAndCountry() throws Exception {
+	public void TC_07_CustomDropdown_FlagsAndCountry() throws Exception {
 		driver.get("https://semantic-ui.com/modules/dropdown.html");		
 		Thread.sleep(1200);
-		List<String> expectedValue = Stream.of("Bangladesh", "Cayman Islands", "Vatican City", "Uganda", "Togo", "Sweden"
-				, "Solomon Islands",
-				"Rwanda", "Palestine", "North Korea", "Moldova", "Zimbabwe", "Wallis and Futuna", "Albania", "Vietnam").collect(Collectors.toList());
+		List<String> expectedValue = Stream.of("Bangladesh", "Cayman Islands", "Vatican City", "Uganda"
+				, "Togo", "Sweden", "Solomon Islands", "Rwanda", "Palestine", "North Korea"
+				, "Moldova", "Zimbabwe", "Wallis and Futuna", "Albania", "Vietnam").collect(Collectors.toList());
 		SelectManyItemsInDropDown("//div [@class='another dropdown example']/div [@class='ui fluid multiple search selection dropdown']", "//div [@class='menu transition visible']/div", expectedValue);
 		CustomSort(expectedValue);
 		Thread.sleep(1200);
@@ -236,6 +243,7 @@ public class Topic_05_CustomDropdown {
 		CustomSort(actualValue);
 		Assert.assertEquals(new HashSet<String>(actualValue), new HashSet<String>(expectedValue));
 	}
+	
 	@AfterClass
 	public void afterClass() {	
 		driver.quit();
@@ -267,6 +275,7 @@ public class Topic_05_CustomDropdown {
 		
 		return arrReturn;
 	}
+	
 	public String ConvertNumberToTextMonth(int no) {
 		String month = "";
 		switch (no)
@@ -310,6 +319,7 @@ public class Topic_05_CustomDropdown {
 		}
 		return month;
 	}
+	
 	public void CustomSort(List<String> expectedValue) {
 		Collections.sort(expectedValue, new Comparator<String>() {
 	        @Override
@@ -319,6 +329,7 @@ public class Topic_05_CustomDropdown {
 	    });
 		
 	}
+	
 	public void SelectManyItemsInDropDown(String parentLocator, String childLocator, List<String> expectedValue) throws InterruptedException{		
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		WebElement element = driver.findElement(By.xpath(parentLocator));
@@ -339,6 +350,7 @@ public class Topic_05_CustomDropdown {
 		}
 		Thread.sleep(1200);	
 	}
+	
 	public void SelectOneItemInDropDown(String parentLocator, String childLocator, String expectedValue) throws InterruptedException{		
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		WebElement element = driver.findElement(By.xpath(parentLocator));
