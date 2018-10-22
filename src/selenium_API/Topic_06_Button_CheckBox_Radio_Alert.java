@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeClass;
 
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
@@ -17,6 +18,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.security.UserAndPassword;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.sikuli.script.Pattern;
+import org.sikuli.script.Screen;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 
@@ -125,11 +128,26 @@ public class Topic_06_Button_CheckBox_Radio_Alert {
 //		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='content']/div/p")).getText().trim().equals("Congratulations! You must have the proper credentials."));
 		
 		//AutoIT
-//		Runtime.getRuntime().exec("E:\\KP\\AutoIT\\HandleAuthentication.exe");
+//		try {
+//			Runtime.getRuntime().exec("E:\\KP\\AutoIT\\HandleAuthentication.exe");
+//		} catch (IOException e) {
+//		   e.printStackTrace();
+//		}
 //		driver.get("http://the-internet.herokuapp.com/basic_auth");
 //		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='content']/div/p")).getText().trim().equals("Congratulations! You must have the proper credentials."));
 		
-		//sikuli luoi lam
+		//sikuli :  ko bit sao ko chay
+		 Screen screen = new Screen();
+
+		 driver.get("http://the-internet.herokuapp.com/basic_auth");
+		 Pattern username = new Pattern("E:\\KP\\Sikuli\\Login\\Username.PNG");
+		 Pattern password = new Pattern("E:\\KP\\Sikuli\\Login\\Password.PNG");
+		 Pattern login = new Pattern("E:\\KP\\Sikuli\\Login\\OkButton.PNG");	 
+
+		 screen.wait(username, 10); 
+		 screen.type(username, "admin");
+		 screen.type(password, "admin");
+		 screen.click(login);
 	}
 	
 	public void clickElementByJavascript(WebElement element) {
