@@ -132,7 +132,7 @@ public class Topic_08_UploadAndDownload {
 	
 	@AfterClass
 	public void afterClass() {
-		//driver.close();	
+		driver.close();	
 	}
 
 }

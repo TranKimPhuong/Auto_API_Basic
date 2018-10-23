@@ -15,7 +15,6 @@ import org.testng.annotations.AfterClass;
 public class Topic_00_template {
 	
 	WebDriver driver;
-	String WebUrl = "https://daominhdam.github.io/basic-form/"; 
 	
 	@BeforeClass
 	public void beforeClass() {
@@ -27,7 +26,7 @@ public class Topic_00_template {
 	@Test
 	public void TC_01_TextBoxIsDisable(WebDriver driver, WebElement webe) throws Exception
 	{		
-		driver.get(WebUrl);
+		driver.get("https://daominhdam.github.io/basic-form/");
 	}
 
 	@AfterClass
