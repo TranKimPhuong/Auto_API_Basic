@@ -1,9 +1,12 @@
 package selenium_API;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -28,13 +31,13 @@ public class Topic_00_Common {
 	WebDriver driver;
 	WebDriverWait wait;
 	
-	//Topic 05
+	//Topic 05, 10, 08
 	public int PickNumberRandom(int limit) {
 		Random rd = new Random();
 		return rd.nextInt(limit);
 	}
 	
-	public String[] PickMonthRandom() {
+	public String[] PickThreeMonthRandom() {
 		String[] arrReturn = new String[3];
 		
 		// avoid case no = 0
@@ -143,12 +146,6 @@ public class Topic_00_Common {
 		Thread.sleep(1200);	
 	}
 	
-	//Topic 06
-	public void clickElementByJavascript(WebElement element) {
-	    JavascriptExecutor je = (JavascriptExecutor) driver;
-	    je.executeScript("arguments[0].click();", element);
-	}
-	
 	//Topic 05, 07
 	public void CustomSort(List<String> expectedValue) {
 		Collections.sort(expectedValue, new Comparator<String>() {
@@ -162,18 +159,43 @@ public class Topic_00_Common {
 	
 	// topic 09
 
-	public void SwitchToWindow(WebElement element, Set<String> parentWindows, String newTitle) throws Exception
+	public void SwitchBetween2Windows( String parentWindow, String newTitle) throws Exception
 	{	
-		element.click();
 		Set<String> allWindows = driver.getWindowHandles();
 		for(String w: allWindows) {		
-			if(!parentWindows.contains(w))
+			if(!w.equalsIgnoreCase(parentWindow))
 			{
 				driver.switchTo().window(w);
-				if (driver.getTitle().trim().equals(newTitle.trim()))
-					break;
+				break;
 			}
 		}
+	}
+	
+	public void SwitchByTitle(String newTitle) throws Exception
+	{	
+		Set<String> allWindows = driver.getWindowHandles();
+		for(String w: allWindows) {		
+			driver.switchTo().window(w);
+			if (driver.getTitle().trim().equals(newTitle.trim()))
+				break;
+		}
+	}
+	
+	public void SwitchByID(String newWindowID) throws Exception
+	{	
+		Set<String> allWindows = driver.getWindowHandles();
+		for(String w: allWindows) {		
+			if (w.equalsIgnoreCase(newWindowID))
+			{
+				driver.switchTo().window(w);
+				break;
+			}
+		}
+	}
+	
+	public void IsTitleDisplayed(String newTitle) throws Exception
+	{
+		Assert.assertTrue(driver.getTitle().trim().equals(newTitle.trim()));
 	}
 	
 	public void IsCloseAllExceptOne(String parentWindow) throws Exception
@@ -186,6 +208,118 @@ public class Topic_00_Common {
 				driver.close();
 			}
 		}		
+	}
+	
+	//topic 06, 10	
+	public Object clickElementByJs(WebElement element) {
+	    try{
+	    	JavascriptExecutor js = (JavascriptExecutor) driver;
+	    	return js.executeScript("arguments[0].click();", element);
+	    }catch(Exception e){
+	    	e.getMessage();
+	    	return null;
+	    }
+	}
+	
+	public Object sendKeyByJs(WebElement element, String value) {
+	    try{
+	    	JavascriptExecutor js = (JavascriptExecutor) driver;
+	    	return js.executeScript("arguments[0].setAttribute('value', '" + value + "')", element);
+	    }catch(Exception e){
+	    	e.getMessage();
+	    	return null;
+	    }
+	}
+	
+	public Object removeAttributeInDOMByJs(WebElement element, String attribute) {
+	    try{
+	    	JavascriptExecutor js = (JavascriptExecutor) driver;
+	    	return js.executeScript("arguments[0].removeAttribute('" + attribute +"');", element);
+	    }catch(Exception e){
+	    	e.getMessage();
+	    	return null;
+	    }
+	}
+	
+	public Object navigateToUrlByJs(String url) {
+	    try{
+	    	JavascriptExecutor js = (JavascriptExecutor) driver;
+	    	return js.executeScript("window.location='" + url + "'");
+	    }catch(Exception e){
+	    	e.getMessage();
+	    	return null;
+	    }
+	}
+	
+	public void highlightElement(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].style.border='6px groove red'", element);
+    }
+	
+	public Object executeForBrowser(String javaSript) {
+        try {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            return js.executeScript(javaSript);
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+	
+	// Topic 08
+	public boolean verifyRealImageLoaded(WebElement image) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		return (boolean) js.executeScript("return arguments[0].complete && " + "typeof arguments[0].naturalWidth != 'undefined' && arguments[0].naturalWidth > 0", image);
+	}
+	
+	/**
+     * This method will set any parameter string to the system's clipboard.
+     */
+	public void setClipboardData_forPath(String path) {
+	    StringSelection stringSelection = new StringSelection(path);	    	    
+	    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+	}
+	
+	public void setClipboardDat_forFileName(String path) {
+        StringSelection stringSelection = new StringSelection(getStringFileNames(path, " ", "\"", false));	    	    
+	    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+	}
+	
+	public String getStringFileNames(String location, String delimiter, String quote, boolean absolutePath ) {
+		File folder = new File(location);
+	    File[] files = folder.listFiles();
+	    String sFilenames = "";
+	    String path = "";
+	    	    	
+	    for(int i = 0; i < files.length; i++){
+		    if (absolutePath == true)
+		    	path = files[i].getAbsolutePath();
+		    else
+		    	path = files[i].getName();
+		    
+	    	if (files[i].isFile())
+	    		sFilenames += (i != 0? quote + delimiter + quote: quote) + path;
+	    }
+	    sFilenames += quote;  
+	    
+	    return  sFilenames;
+	}
+	
+	public List<String> getFileNamesList(String location, boolean absolutePath) {
+		File folder = new File(location);
+		File[] files = folder.listFiles(); 
+	    List<String> filenamesList = new ArrayList<String>();
+	    String path = "";
+	    
+	    for(int i = 0; i < files.length; i++){
+	    	 if (absolutePath == true)
+			    	path = files[i].getAbsolutePath();
+			    else
+			    	path = files[i].getName();
+	    	if (files[i].isFile())
+	    		filenamesList.add(path);
+	    }	    
+	    return  filenamesList;
 	}
 	
 	//Nhin

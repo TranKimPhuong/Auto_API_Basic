@@ -21,7 +21,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 
 
-public class Topic_09_IFrame_WindowPopUp {
+public class Topic_09_IFrame_Frame_WindowPopUp {
 	
 	WebDriver driver;
 	WebDriverWait wait;
@@ -37,7 +37,7 @@ public class Topic_09_IFrame_WindowPopUp {
 	
 	// Frame: nhúng 1 page khac nhung van thuoc domain DO
 	// IFrame: nhúng 1 page khac cua 1 trang thuoc domain KHAC
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void TC_01_HDFCBank_IFrame() throws Exception
 	{		
 		driver.get("http://www.hdfcbank.com/");
@@ -112,51 +112,52 @@ public class Topic_09_IFrame_WindowPopUp {
 		Assert.assertTrue(driver.getTitle().equals("SELENIUM WEBDRIVER FORM DEMO"));
 	}
 	
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void TC_03_HDFCBank_SwitchToWindows() throws Exception
 	{	
 		driver.get("http://www.hdfcbank.com/");
 		System.out.println("******Step 02:*********");
-		CloseAdvertisement();			
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);	
+		CloseAdvertisement();	
+	
 		String originWindow = driver.getWindowHandle();
-		Set<String> parentWindows = new HashSet<String>();
-		parentWindows.add(originWindow);
 		
 		//Step 03 - Click Angri link -> Mở ra tab/window mới -> Switch qua tab mới
 		System.out.println("******Step 03:*********");
-		WebElement linkAgri = driver.findElement(By.xpath("//a[text() = \"Agri\"]"));
-		SwitchToWindow(linkAgri, parentWindows,"HDFC Bank Kisan Dhan Vikas e-Kendra " );			
-		parentWindows.add(driver.getWindowHandle());
-		Thread.sleep(3000);
+		driver.findElement(By.xpath("//a[text() = \"Agri\"]")).click();
+		
+		SwitchByTitle("HDFC Bank Kisan Dhan Vikas e-Kendra" );			
+		IsTitleDisplayed("HDFC Bank Kisan Dhan Vikas e-Kendra");
 		
 		//Step 04 - Click Account Details link -> Mở ra tab/window mới -> Switch qua tab mới
 		System.out.println("******Step 04:*********");
-		WebElement linkAcctDetails  = driver.findElement(By.xpath("//ul [@class='grid_list clearfix']//p[text() = \"Account Details\"]"));
-		SwitchToWindow(linkAcctDetails, parentWindows,"Welcome to HDFC Bank NetBanking");
-		parentWindows.add(driver.getWindowHandle());
-		Thread.sleep(3000);
+		driver.findElement(By.xpath("//ul [@class='grid_list clearfix']//p[text() = \"Account Details\"]")).click();
+		
+		SwitchByTitle("Welcome to HDFC Bank NetBanking");
+		IsTitleDisplayed("Welcome to HDFC Bank NetBanking");
 		
 		//Step 05- Click Privacy Policy link (nằm trong frame) -> Mở ra tab/window mới -> Switch qua tab mới
 		System.out.println("******Step 05:*********");
 		driver.switchTo().frame(driver.findElement(By.xpath("//frame[@name='footer']")));
-		WebElement linkPrivacy = driver.findElement(By.xpath("//form//a[text() =\"Privacy Policy\"]"));
-		SwitchToWindow(linkPrivacy, parentWindows,"HDFC Bank - Leading Bank in India, Banking Services, Private Banking, Personal Loan, Car Loan" );
-		driver.switchTo().defaultContent();	
-		parentWindows.add(driver.getWindowHandle());
-		Thread.sleep(3000);
+		driver.findElement(By.xpath("//form//a[text() =\"Privacy Policy\"]")).click();
+		
+		SwitchByTitle("HDFC Bank - Leading Bank in India, Banking Services, Private Banking, Personal Loan, Car Loan" );
+		IsTitleDisplayed("HDFC Bank - Leading Bank in India, Banking Services, Private Banking, Personal Loan, Car Loan");
+		//driver.switchTo().defaultContent();	
+
 		
 		//Step 06- Click CSR link on Privacy Policy page
 		System.out.println("******Step 06:*********");
-		WebElement linkCSR = driver.findElement(By.xpath("//a[text() = \"CSR\"]"));
-		SwitchToWindow(linkCSR, parentWindows," HDFC BANK - CSR - Homepage " );		
-		Thread.sleep(3000);
+		driver.findElement(By.xpath("//a[text() = \"CSR\"]")).click();
+		
+		SwitchByTitle(" HDFC BANK - CSR - Homepage " );		
+		IsTitleDisplayed(" HDFC BANK - CSR - Homepage ");
 
 		
 		//Step 07 - Close tất cả popup khác - chỉ giữ lại parent window
 		System.out.println("******Step 07:*********");
-		IsCloseAllExceptOne(originWindow);
-		driver.switchTo().window(originWindow);
-		Assert.assertTrue(driver.getTitle().trim().equals("HDFC Bank: Personal Banking Services ".trim()));
+		IsCloseAllExceptOne(originWindow);	
+		IsTitleDisplayed("HDFC Bank: Personal Banking Services");
 	}
 
 	@AfterClass
@@ -196,20 +197,19 @@ public class Topic_09_IFrame_WindowPopUp {
 //		driver.switchTo().defaultContent();	
 	}
 
-	public void SwitchToWindow(WebElement element, Set<String> parentWindows, String newTitle) throws Exception
+	public void SwitchByTitle(String newTitle) throws Exception
 	{	
-		element.click();
 		Set<String> allWindows = driver.getWindowHandles();
 		for(String w: allWindows) {		
-			if(!parentWindows.contains(w))
-			{
-				driver.switchTo().window(w);
-				if (driver.getTitle().trim().equals(newTitle.trim()))
-					break;
-			}
+			driver.switchTo().window(w);
+			if (driver.getTitle().trim().equals(newTitle.trim()))
+				break;
 		}
 	}
-	
+	public void IsTitleDisplayed(String newTitle) throws Exception
+	{
+		Assert.assertTrue(driver.getTitle().trim().equals(newTitle.trim()));
+	}
 	public void IsCloseAllExceptOne(String parentWindow) throws Exception
 	{	
 		Set<String> allWindows = driver.getWindowHandles();
@@ -219,6 +219,8 @@ public class Topic_09_IFrame_WindowPopUp {
 				driver.switchTo().window(w);
 				driver.close();
 			}
-		}		
+		}	
+		driver.switchTo().window(parentWindow);
+		
 	}
 }
