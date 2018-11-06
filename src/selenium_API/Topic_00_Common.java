@@ -6,10 +6,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 import org.apache.poi.ss.usermodel.Cell;
@@ -320,6 +323,31 @@ public class Topic_00_Common {
 	    		filenamesList.add(path);
 	    }	    
 	    return  filenamesList;
+	}
+	//Topic 11
+	/**
+	 * Mình tự viết pattern cho weekday theo ý mình 
+	 */
+	public String myDateFormat(Date dt, String pattern) {
+		Locale locale = new Locale("en", "UK");
+		
+		//my style
+//		DateFormatSymbols dateFormatSymbols = new DateFormatSymbols(locale);
+//		dateFormatSymbols.setWeekdays(new String[]{
+//		        "Unused",
+//		        "Sad Sunday",
+//		        "Manic Monday",
+//		        "Thriving Tuesday",
+//		        "Wet Wednesday",
+//		        "Total Thursday",
+//		        "Fat Friday",
+//		        "Super Saturday",
+//		});				
+		
+		// default way
+		SimpleDateFormat simpleDateFormat =
+		        new SimpleDateFormat(pattern, locale);
+		return simpleDateFormat.format(dt);
 	}
 	
 	//Nhin
