@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Run PACKAGE(All Classes)">
+	<parameter name ="user" value="User1@domain.com"></parameter>
+	<parameter name = "pass" value = "1@3456"></parameter>
+	<parameter name = "browser" value = "firefox"></parameter>
+	
+	<test name = "Run ON FIREFOX">
+		<packages>
+			<package name = "TestNG_Demo">
+			</package>
+		</packages>
+	</test>
+</suite>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="TestNG_Demo" parallel="false">
+	<test name="Test">
+		<groups>
+			<run>
+				<include name="account"></include>
+				<include name="payment"></include>
+			</run>
+		</groups>
+
+		<classes>
+			<class name="TestNG_Demo.TestNG_01_Annotations" />
+			<class name="TestNG_Demo.TestNG_02_Group" />
+		</classes>
+	</test>
+</suite>

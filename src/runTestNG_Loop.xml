@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Live Guru" parallel="false">			
+	<test name = "LOOP">
+		<classes>
+			<!-- <class name="TestNG_Demo.TestNG_04_DataProvider" />	 -->			
+			<class name="TestNG_Demo.TestNG_03_Loop" />
+		</classes>
+	</test>
+</suite>

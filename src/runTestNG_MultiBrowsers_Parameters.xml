@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Live Guru" parallel="tests" thread-count = "5">
+	<parameter name ="user" value="User1@domain.com"></parameter>
+	<parameter name = "pass" value = "1@3456"></parameter>
+				
+	<test name="Run on FIREFOX">
+		<parameter name = "browser" value = "firefox"></parameter>
+		<classes>
+			<class name="TestNG_Demo.TestNG_05_MultiBrowsers" />
+		</classes>
+	</test>
+	
+	<test name="Run on CHROME">
+		<parameter name = "browser" value = "chrome"></parameter>
+		<classes>
+			<class name="TestNG_Demo.TestNG_05_MultiBrowsers" />
+		</classes>
+	</test>
+	
+	<test name="Run on CHROME HEADLESS">
+		<parameter name = "browser" value = "headless"></parameter>
+		<classes>
+			<class name="TestNG_Demo.TestNG_05_MultiBrowsers" />
+		</classes>
+	</test>
+	
+<!-- 	Ghet run ko stable gì ráo
+	<test name="Run on INTERNET EXPLORER">
+		<parameter name = "browser" value = "IE"></parameter>
+		<classes>
+			<class name="TestNG_Demo.TestNG_05_MultiBrowsers" />
+		</classes>
+	</test> -->
+	
+</suite>
