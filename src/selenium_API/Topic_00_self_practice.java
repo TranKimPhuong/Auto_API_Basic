@@ -2,13 +2,19 @@ package selenium_API;
 
 import org.testng.annotations.Test;
 
+import com.sun.prism.paint.Stop;
+
 import org.testng.annotations.BeforeClass;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -37,9 +43,7 @@ public class Topic_00_self_practice {
 	
 	@BeforeClass
 	public void beforeClass() {
-		driver = new FirefoxDriver();
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);	
-		driver.manage().window().maximize();
+
 	}
 	
 	@Test(enabled = false)
@@ -75,7 +79,7 @@ public class Topic_00_self_practice {
 		Assert.assertEquals("Your submission has been received.", driver.findElement(By.xpath("//div[@id='stage']/div/p")).getText());
 	}
 
-	@Test 
+	@Test (enabled = false)
 	public void TC_01_XPath() throws InterruptedException {
 		driver.navigate().to(WebUrl);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -202,10 +206,27 @@ public class Topic_00_self_practice {
 		
 	}
 	
-	@AfterClass
+	@Test(enabled = false)
+	public void TC_02_test_SuiteCRM() throws InterruptedException {
+		driver.navigate().to("http://27.74.255.96:8070/suitecrm/index.php");
+		
+		driver.findElement(By.id("user_name")).clear();
+		 driver.findElement(By.id("user_name")).sendKeys("admin");
+
+		 driver.findElement(By.id("user_password")).clear();
+		 driver.findElement(By.id("user_password")).sendKeys("RAPtor@1234");
+
+		 driver.findElement(By.name("Login")).click();
+		 driver.quit();
+		 
+	}
+	 
+	
+	@AfterClass	
 	public void afterClass() {
 		
 		driver.quit();
+
 	}
 
 }

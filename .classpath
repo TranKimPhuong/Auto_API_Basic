@@ -28,5 +28,6 @@
 	<classpathentry kind="lib" path="lib/poi-bin-4.0.0-20180907/poi-ooxml-4.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/poi-bin-4.0.0-20180907/poi-ooxml-schemas-4.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/poi-bin-4.0.0-20180907/poi-scratchpad-4.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/sqljdbc_7.0/enu/mssql-jdbc-7.0.0.jre8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
